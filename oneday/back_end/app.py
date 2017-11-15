@@ -2,12 +2,13 @@ from apistar import Include, Route
 from apistar.frameworks.wsgi import WSGIApp as App
 from apistar.handlers import docs_urls, static_urls
 
-from view import welcome, that_day
+from view import welcome, that_day, another_day
 
 
 routes = [
     Route('/', 'GET', welcome),
     Route('/oneday/{date_string}', 'GET', that_day),
+    Route('/oneday/{date_string}/{opt}', 'GET', another_day),
     Include('/docs', docs_urls),
     Include('/static', static_urls)
 ]
