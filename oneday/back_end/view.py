@@ -17,7 +17,7 @@ def that_day(date_string):
         _now = datetime.now()
         date_string = '{}-{}-{}'.format(*[str(x) for x in [_now.year, _now.month, _now.day]])
     _p, _r = calculate_datetime(date_string)
-    _data = get_data_from_redis(date_string)[0]
+    _data = get_data_from_redis(date_string)[0].rsplit('[')[0]
     return {'today': date_string, 'passed_day': _p, 'remain_day': _r, 'data': _data}
 
 
@@ -27,3 +27,9 @@ def another_day(date_string, opt):
         return that_day(_date + timedelta(days=1))
     else:
         return that_day(_date - timedelta(days=1))
+
+
+def today():
+    _today = datetime.now()
+    return that_day('{}-{}-{}'.format(_today.year, _today.month, _today.day))
+
