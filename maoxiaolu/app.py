@@ -37,9 +37,9 @@ dev = Config(
     HOST="0.0.0.0",
     PORT="8080",
     SESSION_STORAGE=None,
-    APP_ID='wx75358df345194f95',
-    APP_SECRET='5cb7f57f79672901572e8832977cb469',
-    ENCODING_AES_KEY='GSNR3TnAcalECiQXixBTwrTmO3qdHTXRfQH8XiFcLQj'
+    APP_ID=os.getenv('APP_ID'),
+    APP_SECRET=os.getenv('APP_SECRET'),
+    ENCODING_AES_KEY=os.getenv('ENCODING_AES_KEY')
 
 )
 
