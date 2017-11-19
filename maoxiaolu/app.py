@@ -34,8 +34,8 @@ enable_pretty_logging(logger, 'debug')
 dev = Config(
     TOKEN='luluaiamao',
     SERVER="auto",
-    HOST="127.0.0.1",
-    PORT="8888",
+    HOST="0.0.0.0",
+    PORT="8080",
     SESSION_STORAGE=None,
     APP_ID='wx75358df345194f95',
     APP_SECRET='5cb7f57f79672901572e8832977cb469',
@@ -46,22 +46,24 @@ dev = Config(
 cc = dev
 robot = WeRoBot(config=cc)
 local_client = Client(config=cc)
-redis_db = Redis(db=2)
+redis_db = Redis('redis', db=2)
 
 
 @robot.subscribe
 def say_hi(message):
-    return '谢谢你关注毛小露呀~\n回复 我要看猫 就可以看猫啦'
+    return '谢谢你关注毛小露呀~'
 
 
 @robot.text
 def handle_text(message):
+    message = message.content
     if message == '我要看猫':
+        return '没什么意思，没有素材接口权限'
         if redis_db.exists('cat:imgs'):
             imgs = redis_db.smembers('cat:imgs')
         else:
             tmp_json = local_client.get_media_list('image', 0, 20)
-            tmp = json.loads(tmp_json)
+            tmp = json.loads(tmp_json) 
             tmp_imgs = tmp.get('items')
             imgs = []
             for item in tmp_imgs:
