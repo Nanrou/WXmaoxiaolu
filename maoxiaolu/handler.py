@@ -19,23 +19,24 @@ def say_hi(message):
 
 @robot.text
 def handle_text(message):
-    if message == '我要看猫':
-        if redis_db.exists('cat:imgs'):
-            imgs = redis_db.smembers('cat:imgs')
-        else:
-            tmp_json = local_client.get_media_list('image', 0, 20)
-            tmp = json.loads(tmp_json)
-            tmp_imgs = tmp.get('items')
-            imgs = []
-            for item in tmp_imgs:
-                imgs.append(item.get('media_id'))
-            redis_db.sadd('cat:imgs', imgs)
-        redis_db.expire('cat:imgs', timedelta(days=1))
-        if len(imgs) > 0:
-            that_img = sample(imgs, 1)[0]
-            return ImageReply(media_id=that_img)
-        else:
-            return '猫猫都出去了'
-    else:
-        return talk_api(message)
+    return message.content
+    # if message == '我要看猫':
+    #     if redis_db.exists('cat:imgs'):
+    #         imgs = redis_db.smembers('cat:imgs')
+    #     else:
+    #         tmp_json = local_client.get_media_list('image', 0, 20)
+    #         tmp = json.loads(tmp_json)
+    #         tmp_imgs = tmp.get('items')
+    #         imgs = []
+    #         for item in tmp_imgs:
+    #             imgs.append(item.get('media_id'))
+    #         redis_db.sadd('cat:imgs', imgs)
+    #     redis_db.expire('cat:imgs', timedelta(days=1))
+    #     if len(imgs) > 0:
+    #         that_img = sample(imgs, 1)[0]
+    #         return ImageReply(media_id=that_img)
+    #     else:
+    #         return '猫猫都出去了'
+    # else:
+    #     return talk_api(message)
 

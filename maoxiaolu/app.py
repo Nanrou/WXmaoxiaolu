@@ -1,11 +1,28 @@
 import os
 import sys
+import logging
+from logging import handlers
+
+BASEPATH = os.path.dirname(os.path.abspath(__file__))
+
+logger = logging.getLogger('wx')
+logger.setLevel(logging.DEBUG)
+
+handler = handlers.RotatingFileHandler(
+    os.path.join(BASEPATH, 'wx'),
+    maxBytes=10,
+    backupCount=3,
+)
+logger.addHandler(handler)
 
 sys.path.append(os.path.abspath('.'))
 
 from werobot import WeRoBot
 from werobot.client import Client
 from werobot.config import Config
+from werobot.logger import enable_pretty_logging
+
+enable_pretty_logging(logger, 'debug')
 
 dev = Config(
     TOKEN='luluaiamao',
