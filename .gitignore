@@ -92,3 +92,7 @@ ENV/
 # pycharm
 .idea/
 logs/
+*.html
+*.txt
+*.json
+data/
