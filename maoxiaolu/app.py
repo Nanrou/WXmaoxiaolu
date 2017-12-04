@@ -25,9 +25,9 @@ from werobot import WeRoBot
 from werobot.client import Client
 from werobot.config import Config
 from werobot.logger import enable_pretty_logging
-from werobot.replies import ImageReply
 
 from tuling import talk_api
+from i_am_a_rapper.rapper import Rapper
 
 enable_pretty_logging(logger, 'debug')
 
@@ -47,36 +47,47 @@ cc = dev
 robot = WeRoBot(config=cc)
 local_client = Client(config=cc)
 redis_db = Redis('redis', db=2)
+rapper_api = Rapper(redis_db)
 
 
 @robot.subscribe
 def say_hi(message):
-    return '谢谢你关注毛小露呀~'
+    return '谢谢你关注毛小露呀~\n输入 "我要rap" 就可以开启找韵脚功能\n输入 "不玩了" 就是回到普通状态'
 
 
 @robot.text
-def handle_text(message):
+def handle_text(message, session):
     message = message.content
-    if message == '我要看猫':
-        return '没什么意思，没有素材接口权限'
-        # if redis_db.exists('cat:imgs'):
-        #     imgs = redis_db.smembers('cat:imgs')
-        # else:
-        #     tmp_json = local_client.get_media_list('image', 0, 20)
-        #     tmp = json.loads(tmp_json)
-        #     tmp_imgs = tmp.get('items')
-        #     imgs = []
-        #     for item in tmp_imgs:
-        #         imgs.append(item.get('media_id'))
-        #     redis_db.sadd('cat:imgs', imgs)
-        # redis_db.expire('cat:imgs', timedelta(days=1))
-        # if len(imgs) > 0:
-        #     that_img = sample(imgs, 1)[0]
-        #     return ImageReply(media_id=that_img)
-        # else:
-        #     return '猫猫都出去了'
+    if 'rap_status' in session:
+        return rapper_api.get_words(message)
     else:
-        return talk_api(message)
+        if message == '我要rap':
+            session['rap_status'] = True
+            return '呦呦呦，切克闹～'
+        elif message == '不玩了':
+            session.pop['rap_status']
+            return '现在你可以继续和机器人聊天啦'
+
+        if message == '我要看猫':
+            return '没什么意思，没有素材接口权限'
+            # if redis_db.exists('cat:imgs'):
+            #     imgs = redis_db.smembers('cat:imgs')
+            # else:
+            #     tmp_json = local_client.get_media_list('image', 0, 20)
+            #     tmp = json.loads(tmp_json)
+            #     tmp_imgs = tmp.get('items')
+            #     imgs = []
+            #     for item in tmp_imgs:
+            #         imgs.append(item.get('media_id'))
+            #     redis_db.sadd('cat:imgs', imgs)
+            # redis_db.expire('cat:imgs', timedelta(days=1))
+            # if len(imgs) > 0:
+            #     that_img = sample(imgs, 1)[0]
+            #     return ImageReply(media_id=that_img)
+            # else:
+            #     return '猫猫都出去了'
+        else:
+            return talk_api(message)
 
 
 if __name__ == '__main__':

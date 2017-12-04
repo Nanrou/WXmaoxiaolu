@@ -6,7 +6,7 @@ from random import randint
 import requests
 from bs4 import BeautifulSoup
 
-from settings import BASE_DIR, MyLogger
+from .settings import BASE_DIR, MyLogger
 
 
 logger = MyLogger(os.path.abspath(__file__).split('/')[-1])

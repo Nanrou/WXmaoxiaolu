@@ -1,10 +1,10 @@
 import os
 import pickle
 
-from settings import BASE_DIR, MyLogger
-from crawler import handler_single_artist
-from extract import handler_single_lyric
-from db_opt import MyRedis
+from .settings import BASE_DIR, MyLogger
+from .crawler import handler_single_artist
+from .extract import handler_single_lyric
+from .db_opt import MyRedis
 
 
 logger = MyLogger(os.path.abspath(__file__).split('/')[-1])
