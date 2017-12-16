@@ -4,8 +4,8 @@ import pickle
 from random import choice
 import re
 
-from settings import BASE_DIR
-from extract import filter_some_row, strip_timestamp_from_raw_data, find_rhyme_index
+from maoxiaolu.i_am_a_rapper.settings import BASE_DIR
+from maoxiaolu.i_am_a_rapper.extract import filter_some_row, strip_timestamp_from_raw_data, find_rhyme_index
 
 
 class TestExtract(unittest.TestCase):

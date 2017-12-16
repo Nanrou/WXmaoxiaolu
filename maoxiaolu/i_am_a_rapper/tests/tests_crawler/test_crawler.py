@@ -2,8 +2,8 @@ import unittest
 import os
 import re
 
-from settings import BASE_DIR
-from crawler import get_artist, get_lyric, TEST_ARTIST_ID, TEST_SONG_ID, scrape_all_urls_of_song, extract_id_from_url, scrape_artist_name
+from maoxiaolu.i_am_a_rapper.settings import BASE_DIR
+from maoxiaolu.i_am_a_rapper.crawler import get_artist, get_lyric, TEST_ARTIST_ID, TEST_SONG_ID, scrape_all_urls_of_song, extract_id_from_url, scrape_artist_name
 
 
 @unittest.skip

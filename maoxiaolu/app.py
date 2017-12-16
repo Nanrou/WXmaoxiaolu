@@ -37,16 +37,20 @@ dev = Config(
     HOST="0.0.0.0",
     PORT="8080",
     SESSION_STORAGE=None,
-    APP_ID=os.getenv('APP_ID'),
-    APP_SECRET=os.getenv('APP_SECRET'),
-    ENCODING_AES_KEY=os.getenv('ENCODING_AES_KEY')
+#    APP_ID=os.getenv('APP_ID'),
+#    APP_SECRET=os.getenv('APP_SECRET'),
+#    ENCODING_AES_KEY=os.getenv('ENCODING_AES_KEY')
+
+    APP_ID='wx75358df345194f95',
+    APP_SECRET='5cb7f57f79672901572e8832977cb469',
+    ENCODING_AES_KEY='GSNR3TnAcalECiQXixBTwrTmO3qdHTXRfQH8XiFcLQj'
 
 )
 
 cc = dev
 robot = WeRoBot(config=cc)
 local_client = Client(config=cc)
-redis_db = Redis('redis', db=2)
+redis_db = Redis(host='redis', db=2)
 rapper_api = Rapper(redis_db)
 
 
@@ -58,15 +62,17 @@ def say_hi(message):
 @robot.text
 def handle_text(message, session):
     message = message.content
-    if 'rap_status' in session:
+    
+    if False and 'rap_status' in session:
+        if message == '不玩了':
+            session.pop['rap_status']
+            return '现在你可以继续和机器人聊天啦'
         return rapper_api.get_words(message)
+
     else:
         if message == '我要rap':
             session['rap_status'] = True
             return '呦呦呦，切克闹～'
-        elif message == '不玩了':
-            session.pop['rap_status']
-            return '现在你可以继续和机器人聊天啦'
 
         if message == '我要看猫':
             return '没什么意思，没有素材接口权限'

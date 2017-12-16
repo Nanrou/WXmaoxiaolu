@@ -7,7 +7,7 @@ import pickle
 import jieba
 from pypinyin import lazy_pinyin
 
-from .settings import BASE_DIR, MyLogger
+from settings import BASE_DIR, MyLogger
 
 logger = MyLogger(os.path.abspath(__file__).split('/')[-1])
 
