@@ -56,18 +56,19 @@ rapper_api = Rapper(redis_db)
 
 @robot.subscribe
 def say_hi(message):
-    return '谢谢你关注毛小露呀~\n输入 "我要rap" 就可以开启找韵脚功能\n输入 "不玩了" 就是回到普通状态'
+    return '谢谢你关注毛小露呀~\n输入 "我要rap" 就可以开启找韵脚词功能\n输入 "不玩了" 就是回到普通状态'
 
 
 @robot.text
 def handle_text(message, session):
     message = message.content
     
-    if False and 'rap_status' in session:
+    if 'rap_status' in session:
         if message == '不玩了':
-            session.pop['rap_status']
+            session.pop('rap_status')
             return '现在你可以继续和机器人聊天啦'
-        return rapper_api.get_words(message)
+        ss = rapper_api.get_words(message)
+        return ','.join(ss) + '\nps:输入 "不玩了" 就是回到普通状态'
 
     else:
         if message == '我要rap':
