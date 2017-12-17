@@ -17,7 +17,7 @@ class MyRedis:
     def get(self, rhyme_index, count=None):
         if count is None:
             count = randint(5, 8)
-        return [word.decode('utf-8') for word in self.redis.srandmember(rhyme_index, number=count)]
+        return [word.decode() for word in self.redis.srandmember(rhyme_index, number=count)]
 
     def exists(self, rhyme_index):
         return self.redis.exists(rhyme_index)
@@ -32,10 +32,12 @@ class MyRedis:
     def load(self, file):
         with open(file, 'rb') as rf:
             _rapper_obj = pickle.load(rf)
-        for k, v in _rapper_obj.items():
-            self.redis.sadd(k, v)
+        for k, vs in _rapper_obj.items():
+            for v in vs:
+                self.redis.sadd(k, v)
 
 
 if __name__ == '__main__':
-    rr = MyRedis()
-    rr.dump()
+    tt = redis.Redis(db=2)
+    db = MyRedis(tt)
+    db.load('./rapper_dump.pickle')
