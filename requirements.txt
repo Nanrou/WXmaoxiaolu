@@ -31,7 +31,7 @@ selenium==3.7.0
 simplegeneric==0.8.1
 six==1.11.0
 traitlets==4.3.2
-urllib3==1.22
+urllib3==1.24.2
 wcwidth==0.1.7
 WeRoBot==1.1.1
 xmltodict==0.11.0
